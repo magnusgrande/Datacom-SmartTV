@@ -1,0 +1,33 @@
+# created by virtualenv automatically
+*
+
+# PyCharm IDE files
+.idea/
+*.iml
+
+# Python virtual environments
+.venv/
+venv/
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Test and coverage reports
+htmlcov/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Misc
+.DS_Store
+Thumbs.db
