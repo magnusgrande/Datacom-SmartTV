@@ -25,7 +25,8 @@ class SmartTV:
                 self.state_previous_channel = self.state_current_channel
                 self.state_current_channel += 1
             else:
-                raise ValueError(f"Already at the highest channel ({self.state_number_of_channels}).")
+                raise ValueError(f"Already at the highest channel "
+                                 f"({self.state_number_of_channels}).")
         elif value == "down":
             if self.state_current_channel > 1:
                 self.state_previous_channel = self.state_current_channel
@@ -41,7 +42,8 @@ class SmartTV:
         if detail == "power":
             return "on" if self.state_is_on else "off"
         elif detail == "channel":
-            return f"{self.state_current_channel}/{self.state_number_of_channels}"
+            return (f"{self.state_current_channel}/"
+                    f"{self.state_number_of_channels}")
         elif detail == "channels":
             return str(self.state_number_of_channels)
         elif detail == "full":
@@ -49,4 +51,5 @@ class SmartTV:
                     f"channel: {self.state_current_channel}\n"
                     f"total channels: {self.state_number_of_channels}")
         else:
-            raise ValueError("Unknown detail level. Use 'full', 'power', 'channel', or 'channels'.")
+            raise ValueError("Unknown detail level. "
+                             "Use 'full', 'power', 'channel', or 'channels'.")

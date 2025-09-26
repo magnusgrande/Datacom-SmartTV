@@ -1,5 +1,7 @@
 def parse_command(message):
-    """Parse a client message and return a tuple: (command, attribute, value) or (command, None, None)"""
+    """Parse a client message and return a tuple: (command, attribute, value)
+                                               or (command, None, None)
+    """
     parts = message.strip().split()
     if not parts:
         return None, None, None
@@ -16,6 +18,7 @@ def handle_protocol(tv, message):
     """Handle a client message using SmartTV and return a response string."""
     command, attribute, value = parse_command(message)
     if command == "get":
+        # TODO: Implement the more granular get commands.
         return "Current state: " + "\n" + tv.get_state("full")
     elif command == "set":
         try:
