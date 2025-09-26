@@ -4,7 +4,7 @@ def main():
     """Main function to run the remote control client."""
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect(("localhost", 1337))
+        sock.connect(("localhost", 1238))
         # TODO: Extract UI elements to CLUI class.
         print("Connected to the server.")
         print("Enter 'get' to retrieve the current state.")

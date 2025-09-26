@@ -2,6 +2,7 @@ import socket
 
 
 # TODO: implement Signal handling to gracefully shutdown the server
+#       on sudden interrupts
 
 
 class SmartTV:
@@ -20,16 +21,16 @@ class SmartTV:
         server_socket = None
         try:
             # Open a socket to listen for incoming connections
-            # Listens on localhost:1337
             # TODO: Part 3: Support multiple concurrent connections.
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            server_socket.bind(("localhost", 1337))
+            server_socket.bind(("localhost", 1238))
             server_socket.listen(1)
-            print("SmartTV server is running on localhost:1337")
+            print("SmartTV server is running on localhost:1238")
         # TODO: Handle exceptions better
         except Exception as e:
             print(f"Could not start listening: {e}")
             return
+
         try:
             while True:
                 try:
@@ -39,6 +40,7 @@ class SmartTV:
                 # TODO: Handle exceptions better
                 except Exception as e:
                     print(f"Error: {e}")
+
         finally:
             # Ensure the socket exists before attempting to close.
             if server_socket:
@@ -108,14 +110,17 @@ class SmartTV:
                     self.state_previous_channel = self.state_current_channel
                     self.state_current_channel = value
                 else:
-                    return f"Error: Invalid channel number. Use a number between 1 and {self.state_number_of_channels}."
+                    return (f"Error: Invalid channel number. "
+                            f"Use a number between 1 and "
+                            f"{self.state_number_of_channels}.")
 
             else:
                 return "Error: Unknown attribute. Use 'power' or 'channel'."
             return "state " + str(self.get_state("full"))
 
         except ValueError:
-            return "Error: Invalid command format. Use 'set <attribute> <value>'."
+            return ("Error: Invalid command format. "
+                    "Use 'set <attribute> <value>'.")
         except Exception as e:
             return f"Error: {e}"
 
@@ -127,8 +132,10 @@ class SmartTV:
                 channel - returns the current channel (as a string)
                 channels - returns the number of channels (as a string)
                 DEFAULT: full
-        TODO: Return N/A for channel if TV is off.
         """
+        if not self.state_is_on:
+            return "The TV is off. Please turn it on first."
+
         if detail == "power":
             return "on" if self.state_is_on else "off"
         elif detail == "channel":
@@ -137,10 +144,13 @@ class SmartTV:
                     str(self.state_number_of_channels))
         elif detail == "channels":
             return str(self.state_number_of_channels)
-        else:
+        elif detail == "full":
             return (f"power: {'On' if self.state_is_on else 'Off'}\n"
                     f"channel: {self.state_current_channel}\n"
                     f"total channels: {self.state_number_of_channels}")
+        else:
+            return ("Error: Unknown detail level. "
+                    "Use 'full', 'power', 'channel', or 'channels'.")
 
 
 if __name__ == "__main__":
