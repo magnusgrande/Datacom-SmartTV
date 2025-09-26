@@ -9,7 +9,7 @@ def main():
         print("Connected to the server.")
         print("Enter 'get' to retrieve the current state.")
         print("Enter 'set <property> <value>' to change a property.")
-        print("Valid properties: power (on/off), channel (1-100).")
+        print("Valid properties: power (on/off), channel (up/down).")
         print("Enter 'exit' to quit.")
 
         while True:

@@ -13,7 +13,7 @@ class SmartTV:
         self.state_is_on = False
         self.state_current_channel = 1
         self.state_previous_channel = 1
-        self.state_number_of_channels = 100
+        self.state_number_of_channels = 10
 
     def run(self):
         """Starts the server to listen for incoming connections."""
@@ -105,15 +105,23 @@ class SmartTV:
                     return "Error: Invalid power state. Use 'on' or 'off'."
 
             elif attribute == "channel":
-                value = int(value)
-                if 1 <= value <= self.state_number_of_channels:
-                    self.state_previous_channel = self.state_current_channel
-                    self.state_current_channel = value
+                if value == "up":
+                    if (self.state_current_channel <
+                        self.state_number_of_channels):
+                        self.state_previous_channel = (
+                            self.state_current_channel)
+                        self.state_current_channel += 1
+                    else:
+                        return (f"Error: Already at the highest channel "
+                                f"({self.state_number_of_channels}).")
+                elif value == "down":
+                    if self.state_current_channel > 1:
+                        self.state_previous_channel = self.state_current_channel
+                        self.state_current_channel -= 1
+                    else:
+                        return "Error: Already at the lowest channel (1)."
                 else:
-                    return (f"Error: Invalid channel number. "
-                            f"Use a number between 1 and "
-                            f"{self.state_number_of_channels}.")
-
+                    return "Error: Invalid channel command. Use 'up' or 'down'."
             else:
                 return "Error: Unknown attribute. Use 'power' or 'channel'."
             return "state " + str(self.get_state("full"))
@@ -132,6 +140,8 @@ class SmartTV:
                 channel - returns the current channel (as a string)
                 channels - returns the number of channels (as a string)
                 DEFAULT: full
+                TODO: Consider removing channels now that it
+                TODO:     is built into channel.
         """
         if not self.state_is_on:
             return "The TV is off. Please turn it on first."
