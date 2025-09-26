@@ -1,6 +1,7 @@
 import socket
 import threading
 from smart_tv import SmartTV
+from protocol import handle_protocol
 
 class ClientHandler:
     def __init__(self, conn, tv, client_socket):
@@ -16,12 +17,7 @@ class ClientHandler:
                 if not data:
                     break
                 client_message = data.decode().strip()
-                if client_message == "get":
-                    response = "Current state: " + "\n" + self.tv.get_state("full")
-                elif client_message.startswith("set"):
-                    response = self.tv.handle_state_change_request(client_message)
-                else:
-                    response = "Error: Unknown command. Please try again."
+                response = handle_protocol(self.tv, client_message)
                 self.client_socket.sendall((response + "\n").encode())
         except ConnectionResetError as e:
             print(f"Error: Connection forcibly closed by the client: {e}")
