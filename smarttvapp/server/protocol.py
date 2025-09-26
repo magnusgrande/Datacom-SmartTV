@@ -33,4 +33,3 @@ def handle_protocol(tv, message):
             return f"Error: {e}"
     else:
         return "Error: Unknown command. Please try again."
-
