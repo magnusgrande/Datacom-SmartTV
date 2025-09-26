@@ -55,8 +55,10 @@ class SmartTV:
                 client_message = data.decode().strip()
 
                 # Handles state retrieval
+                # TODO: Extract to separate function
+                # TODO: Add more granular state retrieval commands
                 if client_message == "get":
-                    response = "Current state: " + self.get_state("full")
+                    response = "Current state: " + "\n" + self.get_state("full")
 
                 # Handles state change
                 elif client_message.startswith("set"):
@@ -125,16 +127,19 @@ class SmartTV:
                 channel - returns the current channel (as a string)
                 channels - returns the number of channels (as a string)
                 DEFAULT: full
+        TODO: Return N/A for channel if TV is off.
         """
         if detail == "power":
             return "on" if self.state_is_on else "off"
         elif detail == "channel":
-            return str(self.state_current_channel)
+            return (str(self.state_current_channel) +
+                    "/" +
+                    str(self.state_number_of_channels))
         elif detail == "channels":
             return str(self.state_number_of_channels)
         else:
-            return (f"power: {'on' if self.state_is_on else 'off'}, "
-                    f"channel: {self.state_current_channel}, "
+            return (f"power: {'On' if self.state_is_on else 'Off'}\n"
+                    f"channel: {self.state_current_channel}\n"
                     f"total channels: {self.state_number_of_channels}")
 
 
