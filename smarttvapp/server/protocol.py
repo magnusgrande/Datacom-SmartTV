@@ -18,7 +18,7 @@ def parse_command(message):
 
 
 def handle_protocol(tv, message):
-    """Handle a client message using SmartTV and return a response string."""
+    """Handle a client message and return a response string."""
     command_type, attribute, value = parse_command(message)
 
     if command_type is None:
@@ -26,6 +26,8 @@ def handle_protocol(tv, message):
 
     try:
         # Create the appropriate command using the factory
+        # This is fully not the best way to do this, but it works, and
+        # is significantly cleaner than the old implementation.
         command = CommandFactory.create_command(command_type, attribute)
 
         # Prepare arguments for the command
