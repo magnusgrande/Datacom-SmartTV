@@ -53,3 +53,4 @@ class SmartTV:
         else:
             raise ValueError("Unknown detail level. "
                              "Use 'full', 'power', 'channel', or 'channels'.")
+

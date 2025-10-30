@@ -1,3 +1,6 @@
+from command import CommandFactory
+
+
 def parse_command(message):
     """Parse a client message and return a tuple: (command, attribute, value)
                                                or (command, None, None)
@@ -16,20 +19,24 @@ def parse_command(message):
 
 def handle_protocol(tv, message):
     """Handle a client message using SmartTV and return a response string."""
-    command, attribute, value = parse_command(message)
-    if command == "get":
-        # TODO: Implement the more granular get commands.
-        return "Current state: " + "\n" + tv.get_state("full")
-    elif command == "set":
-        try:
-            if attribute == "power":
-                tv.set_power(value)
-            elif attribute == "channel":
-                tv.set_channel(value)
-            else:
-                return "Error: Unknown attribute. Use 'power' or 'channel'."
-            return "state " + tv.get_state("full")
-        except Exception as e:
-            return f"Error: {e}"
-    else:
+    command_type, attribute, value = parse_command(message)
+
+    if command_type is None:
         return "Error: Unknown command. Please try again."
+
+    try:
+        # Create the appropriate command using the factory
+        command = CommandFactory.create_command(command_type, attribute)
+
+        # Prepare arguments for the command
+        args = []
+        if value is not None:
+            args = [value]
+
+        # Execute the command
+        return command.execute(tv, args)
+
+    except ValueError as e:
+        return f"Error: {e}"
+    except Exception as e:
+        return f"Error: {e}"
