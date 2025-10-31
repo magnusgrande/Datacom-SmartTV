@@ -12,6 +12,7 @@ Written as part of the [IDATA2304](https://www.ntnu.edu/studies/courses/IDATA230
 3. Run server.py
 4. Run remote_control.py
 5. The remote control should connect to the server, and you should be prompted to enter commands.
+6. Optional: Run several instances of the remote control (`python .\smarttvapp\client\remote_control.py` or an IDE that supports running in concurrent terminals).
 
 ---
 
@@ -20,3 +21,8 @@ Written as part of the [IDATA2304](https://www.ntnu.edu/studies/courses/IDATA230
 - set power <on/off> : Turns the TV on or off
 - set channel <up/down> : Changes the channel up or down by 1
 - exit/quit : Closes the remote control application
+
+Example usage:
+`set power on` : turn the TV on.
+`set channel up` : move the channel up (default channel : 1) by 1.
+`get` : returns the current state, channel 2 on a TV that is on.
