@@ -23,6 +23,7 @@ Written as part of the [IDATA2304](https://www.ntnu.edu/studies/courses/IDATA230
 - exit/quit : Closes the remote control application
 
 Example usage:
-`set power on` : turn the TV on.
-`set channel up` : move the channel up (default channel : 1) by 1.
-`get` : returns the current state, channel 2 on a TV that is on.
+
+- `set power on` : turn the TV on.
+- `set channel up` : move the channel up (default channel : 1) by 1.
+- `get` : returns the current state, channel 2 on a TV that is on.
